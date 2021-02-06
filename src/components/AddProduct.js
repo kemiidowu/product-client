@@ -14,8 +14,8 @@ class AddProduct extends React.Component {
       images: "",
     };
     console.log("props", props);
-    if (props.product) {
-      this.state = props.product.data.product;
+    if (props && props.product && props.product.data) {
+      this.state = props.product.data.products;
     } else {
       this.state = this.initialState;
     }
@@ -42,7 +42,7 @@ class AddProduct extends React.Component {
 
   render() {
     let pageTitle;
-    if (this.state && this.state._id._id) {
+    if (this.state && this.state._id) {
       pageTitle = <h2>Edit Product</h2>;
     } else {
       pageTitle = <h2>Add Product</h2>;

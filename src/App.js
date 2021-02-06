@@ -13,8 +13,6 @@ class App extends Component {
       response: {},
       product: {},
       isEditProduct: false,
-      Url:
-        "https://cors-anywhere.herokuapp.com/https://protected-journey-12218.herokuapp.com/api/v1/products",
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
@@ -24,8 +22,9 @@ class App extends Component {
   }
 
   onFormSubmit(data) {
-    if (this.isEditProduct) {
-      const apiUrl = `https://cors-anywhere.herokuapp.com/https://protected-journey-12218.herokuapp.com/api/v1/products/${data._id}`;
+    if (data._id) {
+      // console.log("data,", data);
+      const apiUrl = `https://protected-journey-12218.herokuapp.com/api/v1/products/${data._id}`;
       const formData = new FormData();
       formData.append("data", data);
 
@@ -40,6 +39,34 @@ class App extends Component {
           (result) => {
             this.setState({
               product: result,
+              isAddProduct: false,
+              isEditProduct: false,
+            });
+          },
+          (error) => {
+            this.setState({ error });
+          }
+        );
+    } else {
+      let apiUrl;
+
+      apiUrl = `https://protected-journey-12218.herokuapp.com/api/v1/products/`;
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      const options = {
+        method: "POST",
+        body: JSON.stringify(data),
+        myHeaders,
+      };
+      fetch(apiUrl, options)
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            this.setState({
+              response: result,
+              isAddProduct: false,
+              isEditProduct: false,
             });
           },
           (error) => {
@@ -47,36 +74,10 @@ class App extends Component {
           }
         );
     }
-    console.log("data", data);
-    let apiUrl;
-
-    apiUrl = `https://cors-anywhere.herokuapp.com/https://protected-journey-12218.herokuapp.com/api/v1/products/`;
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    const options = {
-      method: "POST",
-      body: JSON.stringify(data),
-      myHeaders,
-    };
-    fetch(apiUrl, options)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            response: result,
-            isAddProduct: false,
-            isEditProduct: false,
-          });
-        },
-        (error) => {
-          this.setState({ error });
-        }
-      );
   }
 
   editProduct = (productId) => {
-    const apiUrl = `https://cors-anywhere.herokuapp.com/https://protected-journey-12218.herokuapp.com/api/v1/products/${productId}`;
+    const apiUrl = `https://protected-journey-12218.herokuapp.com/api/v1/products/${productId}`;
 
     const options = {
       method: "GET",

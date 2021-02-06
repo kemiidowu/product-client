@@ -94,13 +94,12 @@ class ProductList extends React.Component {
   }
 
   componentDidMount() {
-    const apiUrl = `https://cors-anywhere.herokuapp.com/https://protected-journey-12218.herokuapp.com/api/v1/products`;
+    const apiUrl = `https://protected-journey-12218.herokuapp.com/api/v1/products`;
 
     fetch(apiUrl)
       .then((res) => res.json())
       .then(
         (result) => {
-          console.log("result", result);
           this.setState({
             products: result.data.products,
           });
@@ -112,7 +111,7 @@ class ProductList extends React.Component {
   }
 
   deleteProduct(productId) {
-    const apiUrl = `https://cors-anywhere.herokuapp.com/https://protected-journey-12218.herokuapp.com/api/v1/products/${productId}`;
+    const apiUrl = `https://protected-journey-12218.herokuapp.com/api/v1/products/${productId}`;
 
     const options = {
       method: "DELETE",
@@ -122,7 +121,6 @@ class ProductList extends React.Component {
       .then((res) => res.json())
       .then(
         (result) => {
-          console.log("deleted result", result);
           this.setState({
             response: "successfully deleted ",
           });
